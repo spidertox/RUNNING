@@ -5,11 +5,11 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.maplibre.android.annotations.PolylineOptions
-import com.maplibre.android.camera.CameraUpdateFactory
-import com.maplibre.android.geometry.LatLng
-import com.maplibre.android.maps.MapView
-import com.maplibre.android.maps.Style
+import org.maplibre.android.annotations.PolylineOptions
+import org.maplibre.android.camera.CameraUpdateFactory
+import org.maplibre.android.geometry.LatLng
+import org.maplibre.android.maps.MapView
+import org.maplibre.android.maps.Style
 
 @Composable
 fun RunMapScreen(viewModel: RunViewModel = hiltViewModel()) {

@@ -1,13 +1,13 @@
 package com.running.app.core.map
 
 import android.content.Context
-import com.maplibre.android.geometry.LatLng
-import com.maplibre.android.geometry.LatLngBounds
-import com.maplibre.android.offline.OfflineManager
-import com.maplibre.android.offline.OfflineRegion
-import com.maplibre.android.offline.OfflineRegionError
-import com.maplibre.android.offline.OfflineRegionStatus
-import com.maplibre.android.offline.OfflineTilePyramidRegionDefinition
+import org.maplibre.android.geometry.LatLng
+import org.maplibre.android.geometry.LatLngBounds
+import org.maplibre.android.offline.OfflineManager
+import org.maplibre.android.offline.OfflineRegion
+import org.maplibre.android.offline.OfflineRegionError
+import org.maplibre.android.offline.OfflineRegionStatus
+import org.maplibre.android.offline.OfflineTilePyramidRegionDefinition
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -71,7 +71,9 @@ class SatelliteOfflineManager @Inject constructor(
     /** Kitna download ho chuka (offline check ke liye). */
     fun listRegions(callback: (Array<OfflineRegion>) -> Unit) {
         offlineManager.listOfflineRegions(object : OfflineManager.ListOfflineRegionsCallback {
-            override fun onList(offlineRegions: Array<OfflineRegion>) = callback(offlineRegions)
+            override fun onList(offlineRegions: Array<OfflineRegion>?) {
+                callback(offlineRegions ?: emptyArray())
+            }
             override fun onError(error: String) = callback(emptyArray())
         })
     }
