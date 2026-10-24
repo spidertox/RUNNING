@@ -71,7 +71,9 @@ class SatelliteOfflineManager @Inject constructor(
     /** Kitna download ho chuka (offline check ke liye). */
     fun listRegions(callback: (Array<OfflineRegion>) -> Unit) {
         offlineManager.listOfflineRegions(object : OfflineManager.ListOfflineRegionsCallback {
-            override fun onList(offlineRegions: Array<OfflineRegion>) = callback(offlineRegions)
+            override fun onList(offlineRegions: Array<OfflineRegion>?) {
+                callback(offlineRegions ?: emptyArray())
+            }
             override fun onError(error: String) = callback(emptyArray())
         })
     }
