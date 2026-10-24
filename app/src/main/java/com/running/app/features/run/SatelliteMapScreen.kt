@@ -3,10 +3,11 @@ package com.running.app.features.run
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import kotlinx.coroutines.launch
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.MapView
 import org.maplibre.android.maps.Style
@@ -36,7 +37,7 @@ fun SatelliteMapScreen(manager: SatelliteOfflineManager) {
 
         // Esri attribution (license requirement)
         Text(
-            "Imagery \u00a9 Esri, Maxar",
+            "Imagery © Esri, Maxar",
             color = AdidasWhite,
             modifier = Modifier.align(androidx.compose.ui.Alignment.BottomStart).padding(8.dp)
         )
@@ -68,4 +69,3 @@ fun SatelliteMapScreen(manager: SatelliteOfflineManager) {
         }
     }
 }
-
