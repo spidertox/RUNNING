@@ -29,5 +29,5 @@ object GeoUtils {
         else (durationMs / 1000f) / (distanceMeters / 1000f)
 
     fun estimateCalories(distanceMeters: Double, weightKg: Float = 70f): Int =
-        (distanceMeters / 1000.0 * weightKg * 1.0).toInt()
+        (distanceMeters / 1000.0 * weightKg.toDouble()).toInt()
 }

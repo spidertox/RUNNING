@@ -3,11 +3,11 @@ package com.running.app
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.*
 import com.running.app.core.ui.*
 import com.running.app.features.home.HomeScreen
@@ -58,11 +58,8 @@ fun RowScope.TabItem(
     NavigationBarItem(
         selected = currentRoute == route,
         onClick = onClick,
-        icon = { Text(icon, fontSize = androidx.compose.ui.unit.sp(20)) },
+        icon = { Text(icon, fontSize = 20.sp) },
         label = { Text(label) }
     )
 }
 
-// tiny helper to avoid importing unit-sp everywhere
-@Composable
-fun Int.sp_value() = androidx.compose.ui.unit.sp(this * 1f)

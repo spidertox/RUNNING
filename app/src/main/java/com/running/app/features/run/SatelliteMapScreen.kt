@@ -3,22 +3,20 @@ package com.running.app.features.run
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.maplibre.android.annotations.PolylineOptions
-import com.maplibre.android.camera.CameraUpdateFactory
-import com.maplibre.android.geometry.LatLng
-import com.maplibre.android.maps.MapView
-import com.maplibre.android.maps.Style
+import org.maplibre.android.geometry.LatLng
+import org.maplibre.android.maps.MapView
+import org.maplibre.android.maps.Style
 import com.running.app.core.map.SatelliteOfflineManager
 import com.running.app.core.ui.*
 
 @Composable
 fun SatelliteMapScreen(manager: SatelliteOfflineManager) {
     val context = LocalContext.current
-    var mapView by remember { mutableStateOf<MapView?>(null) }
+    val scope = rememberCoroutineScope()
     var downloadProgress by remember { mutableStateOf<Float?>(null) }
     var downloaded by remember { mutableStateOf(false) }
 
@@ -31,7 +29,6 @@ fun SatelliteMapScreen(manager: SatelliteOfflineManager) {
                         map.setStyle(Style.Builder()
                             .fromUri(SatelliteOfflineManager.STYLE_URL))
                     }
-                    mapView = this
                 }
             },
             modifier = Modifier.fillMaxSize()
@@ -51,8 +48,12 @@ fun SatelliteMapScreen(manager: SatelliteOfflineManager) {
                     // TODO: user ki current location se center lo
                     val center = LatLng(28.6139, 77.2090) // default: New Delhi
                     downloadProgress = 0f
-                    manager.downloadRegion(center)
-                        .collectInScope { downloadProgress = it }
+                    scope.launch {
+                        manager.downloadRegion(center).collect { progress ->
+                            downloadProgress = progress
+                            if (progress >= 1f) downloaded = true
+                        }
+                    }
                 },
                 modifier = Modifier.align(androidx.compose.ui.Alignment.TopEnd).padding(16.dp)
             ) { Text("⬇") }
@@ -68,9 +69,3 @@ fun SatelliteMapScreen(manager: SatelliteOfflineManager) {
     }
 }
 
-// Helper: collect flow in composition scope
-@Composable
-fun <T> kotlinx.coroutines.flow.Flow<T>.collectInScope(onEach: (T) -> Unit) {
-    val flow = this
-    LaunchedEffect(flow) { flow.collect { onEach(it) } }
-}
